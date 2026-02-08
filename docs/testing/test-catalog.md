@@ -70,8 +70,12 @@
 - `TAPI-002` API crate can add summary records and execute recall retrieval with deterministic metadata.
 - `TSVC-001` Service health endpoint returns success envelope with service contract version.
 - `TSVC-002` Service add/query/context flow returns consistent persisted context package id.
-- `TSVC-003` Service OpenAPI endpoint returns the versioned OpenAPI artifact for `service.v1`.
+- `TSVC-003` Service OpenAPI endpoint returns the versioned OpenAPI artifact for `service.v2`.
 - `TSVC-004` Service summary-add and recall-query flow returns a persisted recall Context Package.
+- `TSVC-005` Missing context package lookup returns machine-readable `context_package_not_found` with `404`.
+- `TSVC-006` Validation failures return machine-readable `validation_error` with `400`.
+- `TSVC-007` JSON parse failures return machine-readable `invalid_json` with `400`.
+- `TSVC-008` Duplicate identity writes return machine-readable `write_conflict` with `409`.
 
 ## Performance
 

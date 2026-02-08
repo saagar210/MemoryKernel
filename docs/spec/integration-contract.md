@@ -21,6 +21,7 @@ MemoryKernel is the canonical source for these v1 artifacts.
 - New required fields require a version bump.
 - Fixture updates that change semantic meaning require a version bump.
 - Cross-repo parity checks MUST fail when file sets differ or file contents differ.
+- Schema identity metadata MUST use valid `$id` values in every integration schema.
 
 ## Consumer Scope
 

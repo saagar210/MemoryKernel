@@ -32,3 +32,9 @@ Each contract-affecting change MUST include:
 - new version
 - compatibility impact
 - migration guidance for consumers
+
+## Current Baselines
+
+- CLI contract: `cli.v1`
+- Service contract: `service.v2`
+- API envelope contract: `api.v1`

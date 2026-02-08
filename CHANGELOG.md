@@ -18,3 +18,5 @@
 ### Contract
 
 - Active CLI contract version: `cli.v1`.
+- Active service contract version: `service.v2`.
+- Service error responses now include machine-readable `error.code` + `error.message` with explicit status mapping.
