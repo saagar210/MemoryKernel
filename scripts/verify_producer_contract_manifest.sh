@@ -63,8 +63,10 @@ service_main="$memorykernel_root/crates/memory-kernel-service/src/main.rs"
 openapi="$memorykernel_root/openapi/openapi.yaml"
 service_contract_doc="$memorykernel_root/docs/spec/service-contract.md"
 versioning_doc="$memorykernel_root/docs/spec/versioning.md"
+active_status_doc="$memorykernel_root/docs/implementation/ACTIVE_RUNTIME_STATUS_PRODUCER_2026-02-08.md"
+next_queue_doc="$memorykernel_root/docs/implementation/NEXT_EXECUTION_QUEUE_PRODUCER.md"
 
-for path in "$manifest" "$service_main" "$openapi" "$service_contract_doc" "$versioning_doc"; do
+for path in "$manifest" "$service_main" "$openapi" "$service_contract_doc" "$versioning_doc" "$active_status_doc" "$next_queue_doc"; do
   if [[ ! -f "$path" ]]; then
     echo "required file missing: $path" >&2
     exit 1
@@ -180,5 +182,53 @@ echo "[check] manifest policy aligns with service-v3 lifecycle docs"
 require_grep '`legacy_error` is removed in `service.v3`' "$service_contract_doc"
 require_grep 'service.v3' "$service_contract_doc"
 require_grep 'service.v3' "$versioning_doc"
+
+echo "[check] active runtime status is present and aligned"
+release_tag=$(python3 - "$manifest" <<'PY'
+import json
+import sys
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    data = json.load(f)
+print(data["release_tag"])
+PY
+)
+commit_sha=$(python3 - "$manifest" <<'PY'
+import json
+import sys
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    data = json.load(f)
+print(data["commit_sha"])
+PY
+)
+service_version=$(python3 - "$manifest" <<'PY'
+import json
+import sys
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    data = json.load(f)
+print(data["expected_service_contract_version"])
+PY
+)
+api_version=$(python3 - "$manifest" <<'PY'
+import json
+import sys
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    data = json.load(f)
+print(data["expected_api_contract_version"])
+PY
+)
+integration_baseline=$(python3 - "$manifest" <<'PY'
+import json
+import sys
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    data = json.load(f)
+print(data["integration_baseline"])
+PY
+)
+
+require_grep "^# Active Runtime Status \\(Producer Authoritative\\)$" "$active_status_doc"
+require_grep "- release_tag: \`$release_tag\`" "$active_status_doc"
+require_grep "- commit_sha: \`$commit_sha\`" "$active_status_doc"
+require_grep "- service/api/integration: \`$service_version\` / \`$api_version\` / \`$integration_baseline\`" "$active_status_doc"
+require_grep "Runtime posture: \\*\\*STEADY-STATE GO\\*\\*" "$active_status_doc"
 
 echo "Producer contract manifest checks passed."
