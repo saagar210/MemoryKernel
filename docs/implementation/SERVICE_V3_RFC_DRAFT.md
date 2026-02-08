@@ -9,7 +9,7 @@ Define a safe, testable transition from `service.v2` to `service.v3` where
 `legacy_error` can be removed from non-2xx envelopes without breaking AssistSupport.
 
 ## Current baseline
-- Producer release baseline: `v0.3.1`
+- Producer release baseline: `v0.3.2`
 - Producer commit baseline: `cf331449e1589581a5dcbb3adecd3e9ae4509277`
 - Active contracts:
   - `service.v2`

@@ -3,7 +3,7 @@
 ## 1) Producer Current State and Commitments
 
 ### Current baseline (promoted)
-- `release_tag`: `v0.3.1`
+- `release_tag`: `v0.3.2`
 - `commit_sha`: `cf331449e1589581a5dcbb3adecd3e9ae4509277`
 - `service_contract_version`: `service.v2`
 - `api_contract_version`: `api.v1`
@@ -301,7 +301,7 @@ MemoryKernel producer companion playbook is now published:
 
 MemoryKernel commitments now locked:
 1) Stable producer baseline remains:
-   - release_tag: v0.3.1
+   - release_tag: v0.3.2
    - commit_sha: cf331449e1589581a5dcbb3adecd3e9ae4509277
    - service.v2 / api.v1 / integration/v1
 2) Additive service.v2 error-code policy:
