@@ -1,6 +1,6 @@
 # Trilogy Phase 8-11 Closeout Report
 
-- Started (UTC): `2026-02-08T07:10:24Z`
+- Started (UTC): `2026-02-08T07:13:36Z`
 - MemoryKernel root: `/Users/d/Projects/MemoryKernel`
 - OutcomeMemory root: `/Users/d/Projects/MemoryKernel/components/outcome-memory`
 - MultiAgentCenter root: `/Users/d/Projects/MemoryKernel/components/multi-agent-center`
@@ -12,13 +12,8 @@
 
 ## Hosted Evidence Checks
 
-- Result: PENDING (closeout still running)
-
 ## Closeout Summary
 
-- Finished (UTC): <pending>
-- Report path: `/Users/d/Projects/MemoryKernel/docs/implementation/trilogy-closeout-report-latest.md`
-- Hosted status: <pending>
 
 ## Contract Parity
 
@@ -46,11 +41,7 @@
 
 ## Trilogy Soak Gate
 
-```bash
-/Users/d/Projects/MemoryKernel/scripts/run_trilogy_soak.sh --memorykernel-root '/Users/d/Projects/MemoryKernel' --outcome-root '/Users/d/Projects/MemoryKernel/components/outcome-memory' --multi-agent-root '/Users/d/Projects/MemoryKernel/components/multi-agent-center' --iterations 1
-```
-
-- Result: PASS
+- Result: SKIPPED (requested via `--skip-soak`)
 
 ## Rust Format
 
@@ -98,37 +89,37 @@ cargo run --manifest-path '/Users/d/Projects/MemoryKernel/Cargo.toml' -p memory-
 ## OutcomeMemory Variable Check
 
 ```bash
-gh variable list -R 'saagar210/OutcomeMemory' | rg '^MEMORYKERNEL_CANONICAL_REPO\s'
+gh variable list -R 'saagar210/OutcomeMemory' | awk '$1 == "MEMORYKERNEL_CANONICAL_REPO" { print $2 }' | rg -x 'saagar210/MemoryKernel'
 ```
 
 - Result: PASS
 
-## OutcomeMemory Smoke Workflow Runs
+## OutcomeMemory Smoke Workflow Success Check
 
 ```bash
-gh run list -R 'saagar210/OutcomeMemory' --workflow smoke.yml --limit 5
+count=$(gh run list -R 'saagar210/OutcomeMemory' --workflow smoke.yml --limit 20 --json status,conclusion --jq 'map(select(.status=="completed" and .conclusion=="success")) | length'); [[ $count -gt 0 ]]
 ```
 
 - Result: PASS
 
-## MultiAgentCenter Trilogy Guard Runs
+## MultiAgentCenter Trilogy Guard Success Check
 
 ```bash
-gh run list -R 'saagar210/MultiAgentCenter' --workflow trilogy-guard.yml --limit 5
+count=$(gh run list -R 'saagar210/MultiAgentCenter' --workflow trilogy-guard.yml --limit 20 --json status,conclusion --jq 'map(select(.status=="completed" and .conclusion=="success")) | length'); [[ $count -gt 0 ]]
 ```
 
 - Result: PASS
 
-## MemoryKernel Release Workflow Runs
+## MemoryKernel Release Workflow Success Check
 
 ```bash
-gh run list -R 'saagar210/MemoryKernel' --workflow release.yml --limit 5
+count=$(gh run list -R 'saagar210/MemoryKernel' --workflow release.yml --limit 20 --json status,conclusion --jq 'map(select(.status=="completed" and .conclusion=="success")) | length'); [[ $count -gt 0 ]]
 ```
 
 - Result: PASS
 
 ## Closeout Summary
 
-- Finished (UTC): `2026-02-08T07:10:36Z`
+- Finished (UTC): `2026-02-08T07:13:45Z`
 - Report path: `/Users/d/Projects/MemoryKernel/docs/implementation/trilogy-closeout-report-latest.md`
 - Hosted status: PASS or SKIPPED (not required)

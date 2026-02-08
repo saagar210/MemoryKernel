@@ -202,13 +202,8 @@ started_at=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   echo ""
   echo "## Hosted Evidence Checks"
   echo ""
-  echo "- Result: PENDING (closeout still running)"
-  echo ""
   echo "## Closeout Summary"
   echo ""
-  echo "- Finished (UTC): <pending>"
-  echo "- Report path: \`$(escape_ticks "$report_out")\`"
-  echo "- Hosted status: <pending>"
 } >"$report_out"
 
 run_step "Contract Parity" \
@@ -265,19 +260,19 @@ if [[ -z "$outcome_repo" || -z "$multi_agent_repo" || -z "$memorykernel_repo" ]]
   fi
 else
   run_step "OutcomeMemory Variable Check" \
-    "gh variable list -R '$outcome_repo' | rg '^MEMORYKERNEL_CANONICAL_REPO\\s'" \
+    "gh variable list -R '$outcome_repo' | awk '\$1 == \"MEMORYKERNEL_CANONICAL_REPO\" { print \$2 }' | rg -x '$memorykernel_repo'" \
     "$tmp_dir/outcome_var.log" || hosted_failures=1
 
-  run_step "OutcomeMemory Smoke Workflow Runs" \
-    "gh run list -R '$outcome_repo' --workflow smoke.yml --limit 5" \
+  run_step "OutcomeMemory Smoke Workflow Success Check" \
+    "count=\$(gh run list -R '$outcome_repo' --workflow smoke.yml --limit 20 --json status,conclusion --jq 'map(select(.status==\"completed\" and .conclusion==\"success\")) | length'); [[ \$count -gt 0 ]]" \
     "$tmp_dir/outcome_runs.log" || hosted_failures=1
 
-  run_step "MultiAgentCenter Trilogy Guard Runs" \
-    "gh run list -R '$multi_agent_repo' --workflow trilogy-guard.yml --limit 5" \
+  run_step "MultiAgentCenter Trilogy Guard Success Check" \
+    "count=\$(gh run list -R '$multi_agent_repo' --workflow trilogy-guard.yml --limit 20 --json status,conclusion --jq 'map(select(.status==\"completed\" and .conclusion==\"success\")) | length'); [[ \$count -gt 0 ]]" \
     "$tmp_dir/multi_agent_runs.log" || hosted_failures=1
 
-  run_step "MemoryKernel Release Workflow Runs" \
-    "gh run list -R '$memorykernel_repo' --workflow release.yml --limit 5" \
+  run_step "MemoryKernel Release Workflow Success Check" \
+    "count=\$(gh run list -R '$memorykernel_repo' --workflow release.yml --limit 20 --json status,conclusion --jq 'map(select(.status==\"completed\" and .conclusion==\"success\")) | length'); [[ \$count -gt 0 ]]" \
     "$tmp_dir/memorykernel_runs.log" || hosted_failures=1
 fi
 
