@@ -7,6 +7,18 @@ Scope: Bilateral checkpoint refresh after consumer commit `008dfc8`
 1. Rehearsal continuation: **GO**
 2. Runtime cutover: **NO-GO**
 
+## Decision Record Links
+1. Consumer:
+   - `/Users/d/Projects/AssistSupport/docs/implementation/RUNTIME_CUTOVER_DECISION_RECORD_2026-02-08.md`
+2. Producer mirror:
+   - `/Users/d/Projects/MemoryKernel/docs/implementation/RUNTIME_CUTOVER_DECISION_RECORD_PRODUCER_2026-02-08.md`
+
+## Runtime Command Ownership
+1. Incident commander (consumer): Support Platform On-Call Lead
+2. Incident commander (producer): MemoryKernel Producer On-Call Lead
+3. Rollback owner (consumer): AssistSupport Runtime Integrations Owner
+4. Rollback owner (producer): MemoryKernel Release Owner
+
 ## Runtime Cutover Blockers Before Phase 8 Start
 1. No immutable `service.v3` runtime release tag + commit pair has been approved and published.
 2. Joint go/no-go record for runtime cutover is not complete in both repos.
@@ -27,3 +39,6 @@ Current required gates remain:
 ## Phase 7 Closure Recommendation
 Recommend **Phase 7 = CLOSED** for rehearsal governance and bilateral checkpoint alignment.  
 Recommend **Phase 8 = NOT STARTED** until runtime cutover blockers listed above are cleared.
+
+## Latest Producer Rollback Readiness Evidence
+- `/Users/d/Projects/MemoryKernel/docs/implementation/SERVICE_V3_ROLLBACK_READINESS_REFRESH_2026-02-08.md`

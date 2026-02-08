@@ -54,9 +54,10 @@ published="$memorykernel_root/docs/implementation/PRODUCER_RELEASE_HANDOFF_LATES
 service_contract_doc="$memorykernel_root/docs/spec/service-contract.md"
 cutover_gates_doc="$memorykernel_root/docs/implementation/SERVICE_V3_CUTOVER_GATES.md"
 rfc_doc="$memorykernel_root/docs/implementation/SERVICE_V3_RFC_DRAFT.md"
+decision_record_doc="$memorykernel_root/docs/implementation/RUNTIME_CUTOVER_DECISION_RECORD_PRODUCER_2026-02-08.md"
 generator="$memorykernel_root/scripts/generate_producer_handoff_payload.sh"
 
-for path in "$manifest" "$published" "$service_contract_doc" "$cutover_gates_doc" "$rfc_doc" "$generator"; do
+for path in "$manifest" "$published" "$service_contract_doc" "$cutover_gates_doc" "$rfc_doc" "$decision_record_doc" "$generator"; do
   if [[ ! -f "$path" ]]; then
     echo "required file missing: $path" >&2
     exit 1
@@ -204,5 +205,7 @@ rg -n --quiet -- 'Non-2xx responses intentionally do \*\*not\*\* include `api_co
 rg -n --quiet -- '`legacy_error` remains required for the full `service.v2` lifecycle' "$service_contract_doc"
 rg -n --quiet -- '^## Explicit Non-2xx Envelope Policy$' "$cutover_gates_doc"
 rg -n --quiet -- '^Compatibility expectation \(candidate payload vs pinned runtime baseline\):$' "$rfc_doc"
+rg -n --quiet -- '^2\. Runtime cutover execution: \*\*NO-GO\*\*$' "$decision_record_doc"
+rg -n --quiet -- '^- Phase 7: \*\*Closed\*\* \(decision recorded\)$' "$decision_record_doc"
 
 echo "Producer handoff payload checks passed."

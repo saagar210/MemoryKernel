@@ -84,6 +84,11 @@ Use this template to align with consumer checkpoint packet:
 ## Producer Checkpoint Verdict (current)
 - Rehearsal posture: **GO**
 - Runtime cutover: **NO-GO** (blocked pending explicit joint cutover gate completion)
+- Decision record mirror:
+  - `/Users/d/Projects/MemoryKernel/docs/implementation/RUNTIME_CUTOVER_DECISION_RECORD_PRODUCER_2026-02-08.md`
+- Checkpoint closure status:
+  - Phase 7 decision checkpoint: `CLOSED`
+  - Phase 8 runtime cutover: `NOT STARTED`
 
 ## Latest Bilateral Validation Run (mirrored)
 - Consumer reference:
