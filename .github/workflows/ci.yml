@@ -19,6 +19,11 @@ jobs:
         with:
           components: rustfmt, clippy
 
+      - name: Install shellcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
       - name: Cache cargo artifacts
         uses: Swatinem/rust-cache@v2
 
@@ -36,6 +41,9 @@ jobs:
 
       - name: Producer handoff payload alignment
         run: ./scripts/verify_producer_handoff_payload.sh --memorykernel-root "$GITHUB_WORKSPACE"
+
+      - name: Shell script lint gate
+        run: ./scripts/verify_shell_scripts.sh --memorykernel-root "$GITHUB_WORKSPACE"
 
       - name: Check formatting
         run: cargo fmt --all -- --check
