@@ -2,7 +2,7 @@
 
 ## Version
 
-- Service contract version: `service.v2`
+- Service contract version: `service.v3`
 - API contract version surfaced in envelopes: `api.v1`
 
 ## Transport
@@ -25,16 +25,19 @@ Error responses MUST include:
 - `error.code`
 - `error.message`
 - `error.details` (optional object)
-- `legacy_error` (transitional string mirror of `error.message`; required for `service.v2`)
 
-## Error Envelope Policy (`service.v2`)
+Error responses MUST NOT include:
+
+- `api_contract_version`
+- `legacy_error`
+
+## Error Envelope Policy (`service.v3`)
 
 - Non-2xx responses intentionally do **not** include `api_contract_version`.
 - Non-2xx responses MUST include:
   - `service_contract_version`
   - `error` object with `code` + `message` (and optional `details`)
-  - `legacy_error` for transition-safe consumers
-- `legacy_error` remains required for the full `service.v2` lifecycle and may only be removed in `service.v3` with explicit migration guidance.
+- `legacy_error` is removed in `service.v3`. Consumers should route by `error.code`.
 
 ## Error Status and Code Mapping
 
@@ -66,4 +69,4 @@ The service emits machine-readable error codes with stable semantics:
 
 ## OpenAPI Source of Truth
 
-- `openapi/openapi.yaml` is the versioned artifact for `service.v2`.
+- `openapi/openapi.yaml` is the versioned artifact for `service.v3`.

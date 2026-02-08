@@ -5,7 +5,7 @@
 This policy applies to:
 - CLI output JSON contracts
 - JSON Schemas in `contracts/`
-- Service API contracts (OpenAPI) when introduced
+- Service API contracts (OpenAPI)
 
 ## Rules
 
@@ -15,7 +15,7 @@ This policy applies to:
 4. No contract changes are allowed without passing contract compatibility tests.
 5. Integration contract changes under `contracts/integration/v1/*` MUST pass cross-repo parity checks.
 6. Trilogy compatibility artifacts from sibling repos MUST pass MemoryKernel consumer validation before release.
-7. While `service.v2` is active, non-2xx service envelopes MUST preserve `legacy_error` and MUST NOT add `api_contract_version`.
+7. In `service.v3`, non-2xx service envelopes MUST omit both `legacy_error` and `api_contract_version`.
 8. Producer baseline metadata in `contracts/integration/v1/producer-contract-manifest.json` MUST be kept current and validated in CI/release gates.
 
 ## Version Bump Required
@@ -26,7 +26,7 @@ A version bump is required when any of the following occur:
 - type change
 - semantic meaning change of an existing field
 - stricter validation that can reject previously accepted payloads
-- removal of `legacy_error` from service non-2xx envelopes
+- any non-2xx envelope field changes for service responses
 
 ## Changelog Requirements
 
@@ -39,18 +39,18 @@ Each contract-affecting change MUST include:
 ## Current Baselines
 
 - CLI contract: `cli.v1`
-- Service contract: `service.v2`
+- Service contract: `service.v3`
 - API envelope contract: `api.v1`
 
 ## Service Error Envelope Lifecycle
 
-- `legacy_error` is transitional but mandatory for `service.v2`.
-- Consumers may rely on `error.code` as primary and `legacy_error` as compatibility fallback during `service.v2`.
-- Any removal of `legacy_error` or addition of `api_contract_version` to non-2xx envelopes requires `service.v3` and explicit migration notes.
+- `legacy_error` was transitional for `service.v2` and is removed in `service.v3`.
+- Consumers should rely on `error.code` as the canonical machine-readable signal.
+- Any future non-2xx envelope field additions/removals require explicit version bump and migration notes.
 
 ## Consumer Coordination Policy
 
-- `service.v2` producer baseline SHOULD remain stable for at least one sprint (`14` days).
-- Additive `service.v2` error-code changes require:
+- `service.v3` producer baseline SHOULD remain stable for at least one sprint (`14` days).
+- Additive `service.v3` error-code changes require:
   - standard notice: `10` business days before release
   - emergency exception: `24` hour notice with same-day docs/spec/tests updates

@@ -72,21 +72,19 @@ for path in "$service_main" "$openapi" "$service_contract_doc" "$versioning_doc"
 done
 
 echo "[check] service runtime version"
-require_grep 'const SERVICE_CONTRACT_VERSION: &str = "service.v2";' "$service_main"
+require_grep 'const SERVICE_CONTRACT_VERSION: &str = "service.v3";' "$service_main"
 
 echo "[check] openapi version"
-require_grep '^  version: service.v2$' "$openapi"
+require_grep '^  version: service.v3$' "$openapi"
 
 echo "[check] documented service version"
-require_grep 'Service contract version: `service.v2`' "$service_contract_doc"
+require_grep 'Service contract version: `service.v3`' "$service_contract_doc"
 require_grep 'Non-2xx responses intentionally do \*\*not\*\* include `api_contract_version`\.' "$service_contract_doc"
-require_grep '`legacy_error` remains required for the full `service.v2` lifecycle' "$service_contract_doc"
-require_grep 'removal of `legacy_error` from service non-2xx envelopes' "$versioning_doc"
-require_grep 'requires `service.v3`' "$versioning_doc"
+require_grep '`legacy_error` is removed in `service.v3`' "$service_contract_doc"
+require_grep 'Service contract: `service.v3`' "$versioning_doc"
 
 echo "[check] openapi includes structured error envelope"
 require_grep 'ServiceErrorEnvelope' "$openapi"
-require_grep 'legacy_error' "$openapi"
 
 echo "[check] openapi includes non-2xx responses on query endpoints"
 require_grep '/v1/query/ask:' "$openapi"
@@ -118,13 +116,18 @@ if [[ -z "$error_block_start" ]]; then
 fi
 
 error_block=$(tail -n +"$error_block_start" "$openapi")
-if ! printf "%s\n" "$error_block" | rg -n --quiet -- '^\s*-\s+legacy_error$'; then
-  echo "ServiceErrorEnvelope must require legacy_error in $openapi" >&2
+if printf "%s\n" "$error_block" | rg -n --quiet -- '^\s*api_contract_version:'; then
+  echo "ServiceErrorEnvelope must not define api_contract_version in $openapi" >&2
   exit 1
 fi
 
-if printf "%s\n" "$error_block" | rg -n --quiet -- '^\s*api_contract_version:'; then
-  echo "ServiceErrorEnvelope must not define api_contract_version in $openapi" >&2
+if printf "%s\n" "$error_block" | rg -n --quiet -- '^\s*-\s+legacy_error$'; then
+  echo "ServiceErrorEnvelope must not require legacy_error in $openapi" >&2
+  exit 1
+fi
+
+if printf "%s\n" "$error_block" | rg -n --quiet -- '^\s*legacy_error:'; then
+  echo "ServiceErrorEnvelope must not define legacy_error in $openapi" >&2
   exit 1
 fi
 

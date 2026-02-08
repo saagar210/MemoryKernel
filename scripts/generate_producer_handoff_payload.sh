@@ -114,14 +114,17 @@ active_runtime_baseline = {
 }
 
 non_2xx_envelope_policy = {
-    "service_v2_stable": {
+    "service_v3_stable": {
         "requires": [
             "service_contract_version",
             "error.code",
             "error.message",
-            "legacy_error",
+        ],
+        "optional": [
+            "error.details",
         ],
         "forbids": [
+            "legacy_error",
             "api_contract_version",
         ],
     },
@@ -175,7 +178,7 @@ payload = {
 }
 
 if mode == "service-v3-candidate":
-    payload["expected_service_contract_version"] = "service.v3"
+    payload["expected_service_contract_version"] = manifest["expected_service_contract_version"]
     payload["rehearsal_candidate"] = {
         "requires_runtime_cutover": False,
         "service_v2_runtime_stability_required": True,

@@ -142,23 +142,20 @@ def assert_baseline_alignment(payload, name):
 
 def assert_policy(payload, name):
     policy = payload["non_2xx_envelope_policy"]
-    for key in ("service_v2_stable", "service_v3_candidate"):
+    for key in ("service_v3_stable", "service_v3_candidate"):
         if key not in policy:
             raise SystemExit(f"{name}: non_2xx_envelope_policy missing key: {key}")
 
-    v2 = policy["service_v2_stable"]
-    if sorted(v2.get("requires", [])) != sorted(["service_contract_version", "error.code", "error.message", "legacy_error"]):
-        raise SystemExit(f"{name}: invalid service_v2_stable.requires")
-    if sorted(v2.get("forbids", [])) != ["api_contract_version"]:
-        raise SystemExit(f"{name}: invalid service_v2_stable.forbids")
-
-    v3 = policy["service_v3_candidate"]
-    if sorted(v3.get("requires", [])) != sorted(["service_contract_version", "error.code", "error.message"]):
-        raise SystemExit(f"{name}: invalid service_v3_candidate.requires")
-    if sorted(v3.get("optional", [])) != ["error.details"]:
-        raise SystemExit(f"{name}: invalid service_v3_candidate.optional")
-    if sorted(v3.get("forbids", [])) != sorted(["legacy_error", "api_contract_version"]):
-        raise SystemExit(f"{name}: invalid service_v3_candidate.forbids")
+    for key in ("service_v3_stable", "service_v3_candidate"):
+        policy_entry = policy[key]
+        if sorted(policy_entry.get("requires", [])) != sorted(
+            ["service_contract_version", "error.code", "error.message"]
+        ):
+            raise SystemExit(f"{name}: invalid {key}.requires")
+        if sorted(policy_entry.get("optional", [])) != ["error.details"]:
+            raise SystemExit(f"{name}: invalid {key}.optional")
+        if sorted(policy_entry.get("forbids", [])) != sorted(["legacy_error", "api_contract_version"]):
+            raise SystemExit(f"{name}: invalid {key}.forbids")
 
 def assert_common(payload, name):
     assert_keys(payload, required_common, name)
@@ -183,7 +180,7 @@ if "required_consumer_validation_commands" in stable:
     raise SystemExit("stable payload must not include candidate-only required_consumer_validation_commands")
 
 assert_common(candidate, "candidate")
-assert_mode(candidate, "service-v3-candidate", "service.v3", "candidate")
+assert_mode(candidate, "service-v3-candidate", manifest["expected_service_contract_version"], "candidate")
 for key in ("rehearsal_candidate", "compatibility_expectations", "required_consumer_validation_commands"):
     if key not in candidate:
         raise SystemExit(f"candidate payload missing {key}")
@@ -202,7 +199,7 @@ PY
 
 echo "[check] policy text is documented in normative docs"
 rg -n --quiet -- 'Non-2xx responses intentionally do \*\*not\*\* include `api_contract_version`\.' "$service_contract_doc"
-rg -n --quiet -- '`legacy_error` remains required for the full `service.v2` lifecycle' "$service_contract_doc"
+rg -n --quiet -- '`legacy_error` is removed in `service.v3`' "$service_contract_doc"
 rg -n --quiet -- '^## Explicit Non-2xx Envelope Policy$' "$cutover_gates_doc"
 rg -n --quiet -- '^Compatibility expectation \(candidate payload vs pinned runtime baseline\):$' "$rfc_doc"
 rg -n --quiet -- '^2\. Runtime cutover execution: \*\*NO-GO\*\*$' "$decision_record_doc"

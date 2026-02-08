@@ -106,8 +106,8 @@ if not re.fullmatch(r"v\d+\.\d+\.\d+", data["release_tag"]):
 if not re.fullmatch(r"[0-9a-f]{40}", data["commit_sha"]):
     raise SystemExit("commit_sha must be a 40-char lowercase hex sha")
 
-if data["expected_service_contract_version"] != "service.v2":
-    raise SystemExit("expected_service_contract_version must be service.v2")
+if data["expected_service_contract_version"] != "service.v3":
+    raise SystemExit("expected_service_contract_version must be service.v3")
 
 if data["expected_api_contract_version"] != "api.v1":
     raise SystemExit("expected_api_contract_version must be api.v1")
@@ -128,7 +128,7 @@ expected_codes = [
     "internal_error",
 ]
 if data["error_code_enum"] != expected_codes:
-    raise SystemExit("error_code_enum does not match expected service.v2 canonical ordering")
+    raise SystemExit("error_code_enum does not match expected service.v3 canonical ordering")
 
 window = data["stability_window"]
 if window.get("minimum_sprint_days") != 14:
@@ -153,11 +153,11 @@ for key in (
 PY
 
 echo "[check] manifest service/api versions align with runtime and docs"
-require_grep 'const SERVICE_CONTRACT_VERSION: &str = "service.v2";' "$service_main"
-require_grep '^  version: service.v2$' "$openapi"
-require_grep 'Service contract version: `service.v2`' "$service_contract_doc"
+require_grep 'const SERVICE_CONTRACT_VERSION: &str = "service.v3";' "$service_main"
+require_grep '^  version: service.v3$' "$openapi"
+require_grep 'Service contract version: `service.v3`' "$service_contract_doc"
 require_grep 'API contract version surfaced in envelopes: `api.v1`' "$service_contract_doc"
-require_grep 'Service contract: `service.v2`' "$versioning_doc"
+require_grep 'Service contract: `service.v3`' "$versioning_doc"
 require_grep 'API envelope contract: `api.v1`' "$versioning_doc"
 
 echo "[check] manifest error code enum aligns with OpenAPI"
@@ -176,9 +176,9 @@ for code in \
   require_grep "\"${code}\"" "$manifest"
 done
 
-echo "[check] manifest policy aligns with service-v2 lifecycle docs"
-require_grep 'legacy_error' "$service_contract_doc"
+echo "[check] manifest policy aligns with service-v3 lifecycle docs"
+require_grep '`legacy_error` is removed in `service.v3`' "$service_contract_doc"
 require_grep 'service.v3' "$service_contract_doc"
-require_grep 'requires `service.v3`' "$versioning_doc"
+require_grep 'service.v3' "$versioning_doc"
 
 echo "Producer contract manifest checks passed."
