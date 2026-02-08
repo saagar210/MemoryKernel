@@ -15,6 +15,8 @@ Define a safe, testable transition from `service.v2` to `service.v3` where
   - `service.v2`
   - `api.v1`
   - `integration/v1`
+- Rehearsal planning commit seen by consumer:
+  - `483b01a7e39c7043b71d81707ff59a65f7f230b1`
 
 ## Non-negotiables
 1. No `legacy_error` removal while `service.v2` is active.
@@ -30,6 +32,18 @@ Define a safe, testable transition from `service.v2` to `service.v3` where
   - optional `error.details`
 - `legacy_error` removed in `service.v3`.
 - `api_contract_version` remains excluded from non-2xx (locked policy for service.v3 unless future joint RFC changes this).
+
+## Rehearsal handoff artifact
+Producer publishes a rehearsal candidate payload at:
+- `docs/implementation/SERVICE_V3_REHEARSAL_HANDOFF_CANDIDATE.json`
+
+This artifact is intended for immediate consumer CI validation and must include:
+1. Active runtime baseline (`v0.3.2` and associated immutable commit).
+2. Rehearsal target (`service.v3`) with explicit no-runtime-cutover mode.
+3. Non-2xx envelope policy for both stable (`service.v2`) and rehearsal candidate (`service.v3`).
+4. Error-code validation mode and current enum.
+5. Required producer and consumer verification command sets.
+6. Rollback triggers and rollback action.
 
 ## Migration stages
 
@@ -73,6 +87,7 @@ Define a safe, testable transition from `service.v2` to `service.v3` where
 
 ### Exit criteria
 - Both repos green on planned `service.v3` compatibility checks in pre-release branch contexts.
+- AssistSupport confirms rehearsal payload ingestion and evidence production.
 
 ## Stage 3: Controlled cutover
 ### Producer actions
@@ -86,6 +101,7 @@ Define a safe, testable transition from `service.v2` to `service.v3` where
 - Consumer repin merged.
 - Consumer CI green.
 - Joint go decision recorded.
+- Producer handoff package references explicit cutover gates and evidence checklist.
 
 ## Stage 4: Stabilization and cleanup
 ### Producer actions
@@ -105,6 +121,13 @@ All must be true:
 3. AssistSupport CI is green (`typecheck`, tests, contract tests, CI aggregate).
 4. Producer verification suite is green (fmt/clippy/tests/alignment/parity/smoke/compliance).
 5. Joint cutover acknowledgment is explicitly recorded.
+
+## Producer handoff signal to start service.v3 consumer enforcement
+MemoryKernel declares "rehearsal start ready" only when all are true:
+1. `SERVICE_V3_REHEARSAL_HANDOFF_CANDIDATE.json` is published and committed.
+2. `SERVICE_V3_CUTOVER_GATES.md` is committed with producer/consumer prerequisites and rollback triggers.
+3. Full producer verification suite is green on the same commit.
+4. AssistSupport confirms rehearsal-check acceptance criteria and command set.
 
 ## Consumer cutover checklist (must all pass)
 1. Producer publishes immutable `service.v3` tag + commit with updated manifest/OpenAPI/spec.
@@ -155,3 +178,5 @@ cargo test --workspace --all-targets --all-features
 ## Resolved planning decisions
 1. Overlap rehearsal duration is locked to 14 calendar days (1 sprint).
 2. Consumer manifest-hash validation is deferred for Checkpoint A/B and remains a Phase 3 automation hardening candidate.
+3. Error-code enum validation mode is set equality (order-independent).
+4. AssistSupport pin + matrix + mirrored manifest updates remain atomic in one PR.

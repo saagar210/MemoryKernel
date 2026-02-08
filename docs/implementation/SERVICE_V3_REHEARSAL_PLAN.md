@@ -1,32 +1,49 @@
 # Service.v3 Rehearsal Plan (Producer)
 
-Updated: 2026-02-08
-Owner: MemoryKernel
+Updated: 2026-02-08  
+Owner: MemoryKernel  
+Mode: Planning/rehearsal only (no runtime cutover)
 
-## Scope
-Pre-cutover rehearsal for service.v3 artifacts and handoff discipline. No runtime production cutover in this phase.
+## Objective
+Create a consumer-validatable `service.v3` rehearsal package while keeping live runtime pinned to:
+- `release_tag`: `v0.3.2`
+- `commit_sha`: `cf331449e1589581a5dcbb3adecd3e9ae4509277`
+- `service_contract_version`: `service.v2`
+- `api_contract_version`: `api.v1`
+- `integration_baseline`: `integration/v1`
 
-## Rehearsal Window
-- Duration: 14 calendar days (1 sprint)
+## Inputs and Constraints
+1. AssistSupport must be able to validate rehearsal artifacts in CI immediately.
+2. `service.v2` behavior remains stable during rehearsal.
+3. No removal of `legacy_error` until explicit `service.v3` cutover gates pass.
+4. Non-2xx envelope policy remains explicit:
+   - `service.v2`: requires `service_contract_version`, `error.code`, `error.message`, `legacy_error`; forbids `api_contract_version`.
+   - `service.v3` candidate: requires `service_contract_version`, `error.code`, `error.message`; optional `error.details`; forbids `legacy_error`, `api_contract_version`.
 
-## Producer Deliverables
-1. Immutable rehearsal candidate tag/sha for service.v3 pre-release branch.
-2. Updated canonical producer manifest:
-   - `contracts/integration/v1/producer-contract-manifest.json`
-3. OpenAPI/spec/docs updates for service.v3 envelope policy.
-4. Handoff packet including consumer impact statement.
+## Producer Deliverables (Phase 4 Rehearsal Block)
+1. Rehearsal planning docs:
+   - `docs/implementation/SERVICE_V3_REHEARSAL_PLAN.md`
+   - `docs/implementation/SERVICE_V3_REHEARSAL_EXECUTION_TRACKER.md`
+   - `docs/implementation/SERVICE_V3_RFC_DRAFT.md`
+2. Producer cutover gates:
+   - `docs/implementation/SERVICE_V3_CUTOVER_GATES.md`
+3. Consumer-ready rehearsal handoff payload:
+   - `docs/implementation/SERVICE_V3_REHEARSAL_HANDOFF_CANDIDATE.json`
+4. Deterministic payload generator:
+   - `scripts/generate_service_v3_rehearsal_payload.sh`
 
-## Policy Locks
-1. Non-2xx envelope keeps `api_contract_version` absent unless a future joint RFC changes policy.
-2. `legacy_error` removal is blocked until all service.v3 cutover gates pass.
-3. Consumer manifest-hash validation is optional during initial rehearsal and can be promoted in Phase 3 automation hardening.
+## Rehearsal Exit Criteria
+All must pass:
+1. Producer verification suite is green.
+2. Rehearsal payload JSON matches current baseline manifest and cutover gate policy.
+3. AssistSupport can run pin/contract CI checks against rehearsal payload (no runtime cutover required).
+4. Joint cutover dependencies are explicit (producer prerequisites, consumer prerequisites, rollback triggers, evidence checklist).
 
 ## Verification Commands
 ```bash
 cargo fmt --all -- --check
 cargo clippy --workspace --all-targets --all-features -- -D warnings
 cargo test --workspace --all-targets --all-features
-./scripts/verify_producer_contract_manifest.sh --memorykernel-root /Users/d/Projects/MemoryKernel
 ./scripts/verify_service_contract_alignment.sh --memorykernel-root /Users/d/Projects/MemoryKernel
 ./scripts/verify_contract_parity.sh --canonical-root /Users/d/Projects/MemoryKernel
 ./scripts/verify_trilogy_compatibility_artifacts.sh --memorykernel-root /Users/d/Projects/MemoryKernel
@@ -34,7 +51,7 @@ cargo test --workspace --all-targets --all-features
 ./scripts/run_trilogy_compliance_suite.sh --memorykernel-root /Users/d/Projects/MemoryKernel --skip-baseline
 ```
 
-## Exit Criteria
-1. Producer verification suite is green.
-2. Consumer rehearsal PR is green against service.v3 candidate.
-3. Joint go/no-go record is captured before any runtime cutover.
+## Expected AssistSupport Validation Signals
+1. `pnpm run check:memorykernel-pin` passes with rehearsal payload assumptions.
+2. `pnpm run test:memorykernel-contract` passes for v2 stable + v3 rehearsal expectations.
+3. `pnpm run test:ci` remains green with no runtime behavior change required.
