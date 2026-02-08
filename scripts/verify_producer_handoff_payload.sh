@@ -202,7 +202,24 @@ rg -n --quiet -- 'Non-2xx responses intentionally do \*\*not\*\* include `api_co
 rg -n --quiet -- '`legacy_error` is removed in `service.v3`' "$service_contract_doc"
 rg -n --quiet -- '^## Explicit Non-2xx Envelope Policy$' "$cutover_gates_doc"
 rg -n --quiet -- '^Compatibility expectation \(candidate payload vs pinned runtime baseline\):$' "$rfc_doc"
-rg -n --quiet -- '^2\. Runtime cutover execution: \*\*NO-GO\*\*$' "$decision_record_doc"
-rg -n --quiet -- '^- Phase 7: \*\*Closed\*\* \(decision recorded\)$' "$decision_record_doc"
+
+expected_service_contract_version=$(python3 - "$manifest" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    manifest = json.load(f)
+
+print(manifest["expected_service_contract_version"])
+PY
+)
+
+if [[ "$expected_service_contract_version" == "service.v3" ]]; then
+  rg -n --quiet -- '^2\. Runtime cutover execution: \*\*GO\*\*$' "$decision_record_doc"
+  rg -n --quiet -- '^- Phase 8: \*\*Complete\*\*$' "$decision_record_doc"
+else
+  rg -n --quiet -- '^2\. Runtime cutover execution: \*\*NO-GO\*\*$' "$decision_record_doc"
+  rg -n --quiet -- '^- Phase 7: \*\*Closed\*\* \(decision recorded\)$' "$decision_record_doc"
+fi
 
 echo "Producer handoff payload checks passed."

@@ -1,44 +1,38 @@
 # Joint Decision Status Addendum (Producer)
 
 Updated: 2026-02-08  
-Scope: Bilateral checkpoint refresh after consumer commit `008dfc8`
+Scope: Bilateral runtime-cutover closure alignment after service.v3 promotion.
 
-## Decision Status
+## Baseline (Canonical)
+- release_tag: `v0.4.0`
+- commit_sha: `7e4806a34b98e6c06ee33fa9f11499a975e7b922`
+- service/api/integration: `service.v3` / `api.v1` / `integration/v1`
+
+## Bilateral Decision Status
 1. Rehearsal continuation: **GO**
-2. Runtime cutover: **NO-GO**
+2. Runtime cutover execution: **GO**
 
-## Decision Record Links
-1. Consumer:
+## Bilateral Evidence Links
+1. Consumer runtime decision record:
    - `/Users/d/Projects/AssistSupport/docs/implementation/RUNTIME_CUTOVER_DECISION_RECORD_2026-02-08.md`
-2. Producer mirror:
+2. Producer runtime decision record:
    - `/Users/d/Projects/MemoryKernel/docs/implementation/RUNTIME_CUTOVER_DECISION_RECORD_PRODUCER_2026-02-08.md`
+3. Consumer checkpoint status:
+   - `/Users/d/Projects/AssistSupport/docs/implementation/JOINT_CHECKPOINT_STATUS_2026-02-08.md`
+4. Producer checkpoint status:
+   - `/Users/d/Projects/MemoryKernel/docs/implementation/SERVICE_V3_CUTOVER_DECISION_CHECKPOINT_PRODUCER_2026-02-08.md`
 
-## Runtime Command Ownership
-1. Incident commander (consumer): Support Platform On-Call Lead
-2. Incident commander (producer): MemoryKernel Producer On-Call Lead
-3. Rollback owner (consumer): AssistSupport Runtime Integrations Owner
-4. Rollback owner (producer): MemoryKernel Release Owner
+## Risk/Blocker Resolution (Closed)
+The previously open runtime blockers are now closed:
+1. Immutable runtime target publication: **Closed** (`v0.4.0`, `7e4806a...`).
+2. Bilateral runtime GO/NO-GO record completion: **Closed** (both repos updated).
+3. Runtime-target evidence bundle capture: **Closed** (producer handoff + consumer repin/governance evidence).
+4. Bilateral rollback execution evidence: **Closed** (see rollback refresh docs).
 
-## Runtime Cutover Blockers Before Phase 8 Start
-1. No immutable `service.v3` runtime release tag + commit pair has been approved and published.
-2. Joint go/no-go record for runtime cutover is not complete in both repos.
-3. `service.v3` cutover-day evidence bundle is not yet captured against a real runtime target:
-   - producer release handoff packet for runtime switch
-   - consumer repin evidence against that runtime target
-4. Rollback execution evidence for the runtime switch window is not yet logged as complete by both sides.
+## Phase Closure Recommendation
+- Phase 7 (cutover-decision checkpoint): **CLOSED**
+- Phase 8 (runtime cutover execution): **CLOSED / COMPLETE**
+- Phase 9 (post-cutover stabilization window): **ACTIVE**
 
-## Additional Pre-Cutover Evidence (Producer Position)
-No additional evidence is required beyond current agreed gates.  
-Current required gates remain:
-1. Producer verification suite green.
-2. Consumer verification suite green.
-3. Manifest/pin/matrix/handoff alignment green.
-4. Explicit bilateral sign-off in both checkpoint packets.
-5. Immutable release evidence for the actual runtime target.
-
-## Phase 7 Closure Recommendation
-Recommend **Phase 7 = CLOSED** for rehearsal governance and bilateral checkpoint alignment.  
-Recommend **Phase 8 = NOT STARTED** until runtime cutover blockers listed above are cleared.
-
-## Latest Producer Rollback Readiness Evidence
-- `/Users/d/Projects/MemoryKernel/docs/implementation/SERVICE_V3_ROLLBACK_READINESS_REFRESH_2026-02-08.md`
+## Next Control Point
+Operate under the post-cutover stabilization window with strict fallback safety and rollback readiness checks before any service.v4 planning begins.

@@ -4,15 +4,18 @@ Updated: 2026-02-08
 Owner: MemoryKernel + AssistSupport (bilateral)
 
 ## Decision Scope
-Mirror record for the joint runtime cutover decision state at the end of Phase 7.
+Producer-side mirror of the bilateral Phase 8 runtime cutover decision.
 
 ## Decision Outcome
 1. Rehearsal continuation: **GO**
-2. Runtime cutover execution: **NO-GO**
+2. Runtime cutover execution: **GO**
 
-## Runtime Cutover Window
-- Status: **Not approved**
-- Notes: producer does not require additional pre-cutover evidence beyond agreed gates, but immutable runtime target publication and bilateral GO record are still required.
+## Approved Runtime Target
+- release_tag: `v0.4.0`
+- commit_sha: `7e4806a34b98e6c06ee33fa9f11499a975e7b922`
+- service_contract_version: `service.v3`
+- api_contract_version: `api.v1`
+- integration_baseline: `integration/v1`
 
 ## Ownership (Named Roles)
 - MemoryKernel incident commander role: MemoryKernel Producer On-Call Lead
@@ -31,14 +34,17 @@ Mirror record for the joint runtime cutover decision state at the end of Phase 7
 - Producer addendum:
   - `/Users/d/Projects/MemoryKernel/docs/implementation/JOINT_DECISION_STATUS_ADDENDUM_2026-02-08.md`
 
-## Remaining Blockers Before Phase 8 Start
-1. Immutable `service.v3` runtime release tag + SHA are not yet published and approved.
-2. Bilateral runtime GO/NO-GO record is not yet completed with a `GO` authorization.
-3. Runtime-target evidence bundle is not yet captured:
-   - producer runtime handoff payload
-   - consumer atomic repin evidence against the same runtime target
-4. Bilateral rollback execution evidence for the runtime switch window is not yet logged complete.
+## Runtime Cutover Completion Evidence
+1. Immutable producer runtime baseline published (`v0.4.0`).
+2. Consumer repin and governance bundle aligned to the same baseline.
+3. Producer and consumer verification suites are green at cutover close.
+4. Rollback readiness evidence refreshed against the new runtime baseline.
+
+## Residual Risks (Non-blocking)
+1. Standard post-cutover regression risk mitigated by deterministic fallback and rollback readiness.
+2. Future additive error-code changes still require lead-time policy and manifest updates.
 
 ## Phase Status Mapping
-- Phase 7: **Closed** (decision recorded)
-- Phase 8: **Not Started** (blocked by explicit NO-GO)
+- Phase 7: **Closed**
+- Phase 8: **Complete**
+- Phase 9: **Active (stabilization window)**

@@ -1,5 +1,8 @@
 # Remaining Roadmap Execution Plan (Producer)
 
+> Historical Snapshot: This document captures pre-cutover planning/rehearsal state and is superseded by the runtime closure records in both repos.
+
+
 Updated: 2026-02-08  
 Scope: MemoryKernel producer execution for AssistSupport integration  
 Constraint: Runtime baseline remains `v0.3.2` / `service.v2` / `api.v1` / `integration/v1` until explicit joint cutover approval.
