@@ -47,8 +47,13 @@ cargo test --workspace --all-targets --all-features
 
 | Project | Workspace Version | Locked Commit SHA | Hosted Evidence |
 |---|---|---|---|
-| MemoryKernel | `0.1.0` | `9e3ab63cf98a1a22b0836d5dac0e32186ce9ca42` | CI: [21792896468](https://github.com/saagar210/MemoryKernel/actions/runs/21792896468), Release: [21792912960](https://github.com/saagar210/MemoryKernel/actions/runs/21792912960) |
+| MemoryKernel | `0.1.0` | `7c0e3e8ca5d1b87cc4d3083b7b4306952bd50a1f` | CI: [21793009813](https://github.com/saagar210/MemoryKernel/actions/runs/21793009813), Release: [21793014651](https://github.com/saagar210/MemoryKernel/actions/runs/21793014651) |
 | OutcomeMemory | `0.1.0` | `08acaa351a1800a38062539ab24523ca7ab3aabd` | Smoke: [21792820983](https://github.com/saagar210/OutcomeMemory/actions/runs/21792820983), Performance: [21792820986](https://github.com/saagar210/OutcomeMemory/actions/runs/21792820986) |
-| MultiAgentCenter | `0.1.0` | `da450ef81aa91df097af7e7346cb3cc01bc950ae` | Trilogy Guard: [21792896475](https://github.com/saagar210/MultiAgentCenter/actions/runs/21792896475) |
+| MultiAgentCenter | `0.1.0` | `c3ca158a742aaa9a25dfa50cec98e946aaa358c8` | Trilogy Guard: [21792988679](https://github.com/saagar210/MultiAgentCenter/actions/runs/21792988679) |
 
 These RC locks are the baseline for Phase 9 completion and final promotion sequencing.
+
+GitHub release artifacts:
+- MemoryKernel: `https://github.com/saagar210/MemoryKernel/releases/tag/v0.1.0`
+- OutcomeMemory: `https://github.com/saagar210/OutcomeMemory/releases/tag/v0.1.0`
+- MultiAgentCenter: `https://github.com/saagar210/MultiAgentCenter/releases/tag/v0.1.0`
