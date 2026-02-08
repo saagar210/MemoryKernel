@@ -84,3 +84,25 @@ Use this template to align with consumer checkpoint packet:
 ## Producer Checkpoint Verdict (current)
 - Rehearsal posture: **GO**
 - Runtime cutover: **NO-GO** (blocked pending explicit joint cutover gate completion)
+
+## Latest Bilateral Validation Run (mirrored)
+- Consumer reference:
+  - repo: `/Users/d/Projects/AssistSupport`
+  - branch: `master`
+  - commit: `008dfc8`
+- Consumer validation results (reported PASS):
+  - `pnpm run check:memorykernel-handoff:service-v3-candidate`
+  - `pnpm run check:memorykernel-pin`
+  - `pnpm run test:memorykernel-contract`
+  - `pnpm run test:ci`
+  - `pnpm run check:memorykernel-governance`
+  - `pnpm run test:memorykernel-phase3-dry-run`
+  - `pnpm run test:memorykernel-cutover-dry-run`
+- Producer mirror verification for this checkpoint:
+  - `cargo fmt --all -- --check`
+  - `cargo clippy --workspace --all-targets --all-features -- -D warnings`
+  - `cargo test --workspace --all-targets --all-features`
+  - `./scripts/verify_service_contract_alignment.sh --memorykernel-root /Users/d/Projects/MemoryKernel`
+  - `./scripts/verify_contract_parity.sh --canonical-root /Users/d/Projects/MemoryKernel`
+  - `./scripts/verify_producer_contract_manifest.sh --memorykernel-root /Users/d/Projects/MemoryKernel`
+  - `./scripts/verify_producer_handoff_payload.sh --memorykernel-root /Users/d/Projects/MemoryKernel`
