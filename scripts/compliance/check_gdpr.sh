@@ -2,7 +2,7 @@
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
-# shellcheck source=common.sh
+# shellcheck source=scripts/compliance/common.sh
 source "$script_dir/common.sh"
 
 memorykernel_root=$(parse_memorykernel_root "${1:-}")

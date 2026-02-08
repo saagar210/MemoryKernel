@@ -157,10 +157,10 @@ PY
 echo "[check] manifest service/api versions align with runtime and docs"
 require_grep 'const SERVICE_CONTRACT_VERSION: &str = "service.v3";' "$service_main"
 require_grep '^  version: service.v3$' "$openapi"
-require_grep 'Service contract version: `service.v3`' "$service_contract_doc"
-require_grep 'API contract version surfaced in envelopes: `api.v1`' "$service_contract_doc"
-require_grep 'Service contract: `service.v3`' "$versioning_doc"
-require_grep 'API envelope contract: `api.v1`' "$versioning_doc"
+require_grep "Service contract version: \`service.v3\`" "$service_contract_doc"
+require_grep "API contract version surfaced in envelopes: \`api.v1\`" "$service_contract_doc"
+require_grep "Service contract: \`service.v3\`" "$versioning_doc"
+require_grep "API envelope contract: \`api.v1\`" "$versioning_doc"
 
 echo "[check] manifest error code enum aligns with OpenAPI"
 for code in \
@@ -179,7 +179,7 @@ for code in \
 done
 
 echo "[check] manifest policy aligns with service-v3 lifecycle docs"
-require_grep '`legacy_error` is removed in `service.v3`' "$service_contract_doc"
+require_grep "\`legacy_error\` is removed in \`service.v3\`" "$service_contract_doc"
 require_grep 'service.v3' "$service_contract_doc"
 require_grep 'service.v3' "$versioning_doc"
 

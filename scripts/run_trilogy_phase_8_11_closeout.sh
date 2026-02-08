@@ -35,7 +35,7 @@ resolve_path() {
 
 escape_ticks() {
   local value="$1"
-  printf "%s" "$value" | sed 's/`/\\`/g'
+  printf "%s" "$value" | sed "s/\`/\\\\\`/g"
 }
 
 append_section() {
@@ -278,9 +278,10 @@ fi
 
 append_section "Closeout Summary"
 finished_at=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+escaped_report_out=$(escape_ticks "$report_out")
 {
   echo "- Finished (UTC): \`$finished_at\`"
-  echo "- Report path: \`$(escape_ticks "$report_out")\`"
+  echo "- Report path: \`$escaped_report_out\`"
 } >>"$report_out"
 
 if (( hosted_failures == 1 )); then

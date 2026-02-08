@@ -78,10 +78,10 @@ echo "[check] openapi version"
 require_grep '^  version: service.v3$' "$openapi"
 
 echo "[check] documented service version"
-require_grep 'Service contract version: `service.v3`' "$service_contract_doc"
-require_grep 'Non-2xx responses intentionally do \*\*not\*\* include `api_contract_version`\.' "$service_contract_doc"
-require_grep '`legacy_error` is removed in `service.v3`' "$service_contract_doc"
-require_grep 'Service contract: `service.v3`' "$versioning_doc"
+require_grep "Service contract version: \`service.v3\`" "$service_contract_doc"
+require_grep "Non-2xx responses intentionally do \\*\\*not\\*\\* include \`api_contract_version\`\\." "$service_contract_doc"
+require_grep "\`legacy_error\` is removed in \`service.v3\`" "$service_contract_doc"
+require_grep "Service contract: \`service.v3\`" "$versioning_doc"
 
 echo "[check] openapi includes structured error envelope"
 require_grep 'ServiceErrorEnvelope' "$openapi"
@@ -139,6 +139,7 @@ if rg -n --quiet -- '"":' "$schema_dir"; then
 fi
 
 for schema in "$schema_dir"/*.json; do
+  # shellcheck disable=SC2016
   require_grep '"\$id":' "$schema"
 done
 

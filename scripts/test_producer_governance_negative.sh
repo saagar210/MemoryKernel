@@ -169,8 +169,8 @@ status_drift="$tmp_dir/status-drift"
 create_fixture "$status_drift"
 replace_or_fail \
   "$status_drift/docs/spec/versioning.md" \
-  'Service contract: `service.v3`' \
-  'Service contract: `service.v2`'
+  "Service contract: \`service.v3\`" \
+  "Service contract: \`service.v2\`"
 run_expect_fail "versioning-drift" "required pattern not found" \
   "$memorykernel_root/scripts/verify_producer_contract_manifest.sh" --memorykernel-root "$status_drift"
 

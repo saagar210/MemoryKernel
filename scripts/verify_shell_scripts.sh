@@ -61,5 +61,5 @@ if [[ ${#shell_scripts[@]} -eq 0 ]]; then
   exit 1
 fi
 
-shellcheck --external-sources --severity=warning "${shell_scripts[@]}"
+shellcheck --external-sources --severity=info "${shell_scripts[@]}"
 echo "Shell script lint checks passed."
