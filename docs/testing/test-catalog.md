@@ -78,8 +78,13 @@
 - `TSVC-007` JSON parse failures return machine-readable `invalid_json` with `400`.
 - `TSVC-008` Duplicate identity writes return machine-readable `write_conflict` with `409`.
 - `TSVC-009` Non-2xx error envelope keeps `service.v3` shape (`service_contract_version` + `error`) and excludes `api_contract_version` + `legacy_error`.
+- `TSVC-010` Service readiness endpoint returns `ready` when schema is current.
+- `TSVC-011` Service readiness endpoint returns `schema_unavailable` when DB path is unreachable.
 - `TSVC-012` Service blocking-dispatch helper returns successful values for fast operations.
 - `TSVC-013` Service blocking-dispatch helper returns mapped timeout errors with deterministic details.
+- `TSVC-014` Service telemetry counters increment deterministically for success, failure, and timeout paths.
+- `TSVC-015` Summary-write validation failures return machine-readable `validation_error` with `400`.
+- `TSVC-016` Memory-link JSON parse failures return machine-readable `invalid_json` with `400`.
 
 ## Performance
 
