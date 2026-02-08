@@ -101,6 +101,16 @@ Top-level command groups:
 - API crate: `crates/memory-kernel-api`
 - Service binary: `crates/memory-kernel-service`
 - OpenAPI: `openapi/openapi.yaml`
+- Service operation timeout: `--operation-timeout-ms` (default `2500`)
+
+Example:
+
+```bash
+cargo run -p memory-kernel-service -- \
+  --db ./memory_kernel.sqlite3 \
+  --bind 127.0.0.1:4010 \
+  --operation-timeout-ms 2500
+```
 
 ## Trilogy Integration
 
@@ -148,8 +158,8 @@ cargo test --workspace --all-targets --all-features
 
 ## Current Release
 
-- GitHub release: `v0.2.0`
-- URL: `https://github.com/saagar210/MemoryKernel/releases/tag/v0.2.0`
+- GitHub release: `v0.4.0`
+- URL: `https://github.com/saagar210/MemoryKernel/releases/tag/v0.4.0`
 
 ## Troubleshooting
 
