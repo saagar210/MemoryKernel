@@ -1,6 +1,6 @@
 # Trilogy Compatibility Matrix
 
-Last updated: 2026-02-07
+Last updated: 2026-02-08
 
 ## Contract Baseline
 
@@ -43,12 +43,12 @@ cargo test --workspace --all-targets --all-features
 4. Roll forward in integration order: MemoryKernel -> OutcomeMemory -> MultiAgentCenter.
 5. Roll back in reverse order for compatibility incidents: MultiAgentCenter -> OutcomeMemory -> MemoryKernel.
 
-## Current Baseline Lock (Pre-RC Finalization)
+## Final RC Lock
 
-| Project | Workspace Version | Source |
-|---|---|---|
-| MemoryKernel | `0.1.0` | local workspace crates |
-| OutcomeMemory | `0.1.0` | `trilogy-compatibility.v1.json` |
-| MultiAgentCenter | `0.1.0` | `trilogy-compatibility.v1.json` |
+| Project | Workspace Version | Locked Commit SHA | Hosted Evidence |
+|---|---|---|---|
+| MemoryKernel | `0.1.0` | `d72161d3c4c4f55dcd5ea5e6f982624dc1d11547` | CI: [21792778888](https://github.com/saagar210/MemoryKernel/actions/runs/21792778888), Release: [21792841060](https://github.com/saagar210/MemoryKernel/actions/runs/21792841060) |
+| OutcomeMemory | `0.1.0` | `08acaa351a1800a38062539ab24523ca7ab3aabd` | Smoke: [21792820983](https://github.com/saagar210/OutcomeMemory/actions/runs/21792820983), Performance: [21792820986](https://github.com/saagar210/OutcomeMemory/actions/runs/21792820986) |
+| MultiAgentCenter | `0.1.0` | `4f197a1acf5302dac77bdbd72489e5d7e9aacbde` | Trilogy Guard: [21792778945](https://github.com/saagar210/MultiAgentCenter/actions/runs/21792778945) |
 
-Final RC version/sha locks are tracked in Phase 9 and must be recorded before final promotion.
+These RC locks are the baseline for Phase 9 completion and final promotion sequencing.

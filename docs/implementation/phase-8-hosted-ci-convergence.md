@@ -22,7 +22,7 @@
 ## Exit Checklist
 
 - [x] MemoryKernel includes a deterministic closeout command: `scripts/run_trilogy_phase_8_11_closeout.sh`.
-- [ ] OutcomeMemory hosted CI run proves canonical parity check works with `MEMORYKERNEL_CANONICAL_REPO` configured.
+- [x] OutcomeMemory hosted CI run proves canonical parity check works with `MEMORYKERNEL_CANONICAL_REPO` configured.
 - [x] MultiAgentCenter hosted CI guard workflow is present and configured to validate contract parity and compatibility artifacts.
 - [x] MemoryKernel release gate documentation includes compatibility artifact consumption and parity checks.
-- [ ] MemoryKernel adoption decision log includes hosted CI run evidence links from sibling repos.
+- [x] MemoryKernel adoption decision log includes hosted CI run evidence links from sibling repos.

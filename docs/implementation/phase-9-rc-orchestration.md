@@ -24,5 +24,5 @@
 - [x] RC promotion order is documented: MemoryKernel -> OutcomeMemory -> MultiAgentCenter.
 - [x] Rollback order is documented: MultiAgentCenter -> OutcomeMemory -> MemoryKernel.
 - [x] RC lock metadata format is defined (SemVer + commit SHA + gate evidence reference).
-- [ ] Compatibility matrix contains final locked RC versions/SHAs for all three repos.
-- [ ] Full trilogy release gate passes after each RC lock update.
+- [x] Compatibility matrix contains final locked RC versions/SHAs for all three repos.
+- [x] Full trilogy release gate passes after each RC lock update.

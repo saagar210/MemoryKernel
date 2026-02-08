@@ -1,9 +1,12 @@
 # Trilogy Phase 8-11 Closeout Report
 
-- Started (UTC): `2026-02-08T04:59:42Z`
+- Started (UTC): `2026-02-08T05:22:33Z`
 - MemoryKernel root: `/Users/d/Projects/MemoryKernel`
 - OutcomeMemory root: `/Users/d/Projects/OutcomeMemory`
 - MultiAgentCenter root: `/Users/d/Projects/MultiAgentCenter`
+- MemoryKernel hosted repo: `saagar210/MemoryKernel`
+- OutcomeMemory hosted repo: `saagar210/OutcomeMemory`
+- MultiAgentCenter hosted repo: `saagar210/MultiAgentCenter`
 
 ## Local Gate Results
 
@@ -83,11 +86,41 @@ cargo run --manifest-path '/Users/d/Projects/MemoryKernel/Cargo.toml' -p memory-
 
 ## Hosted Evidence Checks
 
-- Result: SKIPPED (missing one or more hosted repo identifiers)
-- Required inputs: `--memorykernel-repo`, `--outcome-repo`, `--multi-agent-repo`.
+
+## OutcomeMemory Variable Check
+
+```bash
+gh variable list -R 'saagar210/OutcomeMemory' | rg '^MEMORYKERNEL_CANONICAL_REPO\s'
+```
+
+- Result: PASS
+
+## OutcomeMemory Smoke Workflow Runs
+
+```bash
+gh run list -R 'saagar210/OutcomeMemory' --workflow smoke.yml --limit 5
+```
+
+- Result: PASS
+
+## MultiAgentCenter Trilogy Guard Runs
+
+```bash
+gh run list -R 'saagar210/MultiAgentCenter' --workflow trilogy-guard.yml --limit 5
+```
+
+- Result: PASS
+
+## MemoryKernel Release Workflow Runs
+
+```bash
+gh run list -R 'saagar210/MemoryKernel' --workflow release.yml --limit 5
+```
+
+- Result: PASS
 
 ## Closeout Summary
 
-- Finished (UTC): `2026-02-08T04:59:50Z`
+- Finished (UTC): `2026-02-08T05:22:44Z`
 - Report path: `/Users/d/Projects/MemoryKernel/docs/implementation/trilogy-closeout-report-latest.md`
 - Hosted status: PASS or SKIPPED (not required)

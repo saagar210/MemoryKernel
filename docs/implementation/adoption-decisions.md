@@ -63,3 +63,30 @@
 - Evidence:
   - `./scripts/run_trilogy_phase_8_11_closeout.sh --soak-iterations 1` (pass)
   - `docs/implementation/trilogy-closeout-report-latest.md`
+
+## 2026-02-08 (Hosted Convergence and RC Lock Approval)
+
+- Status: Approved
+- Decision:
+  - Close Phase 8 hosted CI convergence and Phase 9 RC lock at trilogy baseline `0.1.0`.
+  - Use locked commits recorded in `trilogy-compatibility-matrix.md` as release baseline.
+- Hosted evidence:
+  - MemoryKernel CI: `https://github.com/saagar210/MemoryKernel/actions/runs/21792778888`
+  - MemoryKernel release workflow: `https://github.com/saagar210/MemoryKernel/actions/runs/21792841060`
+  - OutcomeMemory Smoke: `https://github.com/saagar210/OutcomeMemory/actions/runs/21792820983`
+  - OutcomeMemory Performance: `https://github.com/saagar210/OutcomeMemory/actions/runs/21792820986`
+  - MultiAgentCenter trilogy-guard: `https://github.com/saagar210/MultiAgentCenter/actions/runs/21792778945`
+
+## 2026-02-08 (Final Trilogy Release Approval)
+
+- Status: Approved
+- Preconditions:
+  - Hosted and local closeout checks pass via `run_trilogy_phase_8_11_closeout.sh --require-hosted`.
+  - RC lock metadata is finalized for all three projects.
+- Decision:
+  - Finalize trilogy release for current `v1` contract baseline.
+  - Keep contract freeze policy: any semantic breaking change requires `contracts/integration/v2`.
+- Promotion sequence confirmed:
+  - `MemoryKernel` -> `OutcomeMemory` -> `MultiAgentCenter`
+- Stabilization result:
+  - Clean immediate post-promotion window; no blocking integration regressions observed in hosted validation runs.

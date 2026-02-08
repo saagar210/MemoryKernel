@@ -22,7 +22,7 @@
 ## Exit Checklist
 
 - [x] Final-release execution playbook is documented (`trilogy-closeout-playbook.md`).
-- [ ] Final release approvals are recorded for all three projects.
-- [ ] Release promotions are executed in order: MemoryKernel -> OutcomeMemory -> MultiAgentCenter.
-- [ ] Stabilization window report is recorded with incident summary (or clean window confirmation).
-- [ ] Post-release change policy is reaffirmed: `integration/v1` frozen, `integration/v2` required for breaking semantic changes.
+- [x] Final release approvals are recorded for all three projects.
+- [x] Release promotions are executed in order: MemoryKernel -> OutcomeMemory -> MultiAgentCenter.
+- [x] Stabilization window report is recorded with incident summary (or clean window confirmation).
+- [x] Post-release change policy is reaffirmed: `integration/v1` frozen, `integration/v2` required for breaking semantic changes.

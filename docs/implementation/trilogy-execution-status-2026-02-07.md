@@ -6,25 +6,28 @@ Tracks post-Phase-7 execution status for Phases 8-11 across MemoryKernel, Outcom
 
 ## Phase Status Summary
 
-- Phase 8 (Hosted CI Convergence): IN PROGRESS
+- Phase 8 (Hosted CI Convergence): COMPLETE
   - Complete:
     - MemoryKernel closeout command exists: `scripts/run_trilogy_phase_8_11_closeout.sh`.
     - MemoryKernel closeout report generated: `docs/implementation/trilogy-closeout-report-latest.md` (local gates pass).
-    - OutcomeMemory hosted workflow supports canonical checkout via `vars.MEMORYKERNEL_CANONICAL_REPO`.
-    - MultiAgentCenter hosted trilogy guard workflow is present.
+    - OutcomeMemory hosted variable `MEMORYKERNEL_CANONICAL_REPO=saagar210/MemoryKernel` is set and verified.
+    - OutcomeMemory hosted workflows pass with linked sibling dependencies:
+      - Smoke: `https://github.com/saagar210/OutcomeMemory/actions/runs/21792820983`
+      - Performance: `https://github.com/saagar210/OutcomeMemory/actions/runs/21792820986`
+    - MultiAgentCenter hosted trilogy guard workflow passes:
+      - `https://github.com/saagar210/MultiAgentCenter/actions/runs/21792778945`
+    - MemoryKernel hosted CI passes with linked OutcomeMemory dependency:
+      - `https://github.com/saagar210/MemoryKernel/actions/runs/21792778888`
     - OutcomeMemory local quality gates verified (`fmt`, `clippy -D warnings`, `test`).
     - MultiAgentCenter local quality gates verified (`fmt`, `clippy -D warnings`, `test`).
-  - Pending:
-    - Confirm OutcomeMemory hosted run with `MEMORYKERNEL_CANONICAL_REPO` set.
-    - Record hosted run links in MemoryKernel decision log.
 
-- Phase 9 (RC Orchestration and Version Lock): IN PROGRESS
+- Phase 9 (RC Orchestration and Version Lock): COMPLETE
   - Complete:
     - RC and rollback ordering is documented.
     - RC lock metadata format is documented (SemVer + commit SHA + gate evidence reference).
-  - Pending:
-    - Final locked RC versions/SHAs for all three repos.
-    - Post-lock release gate evidence per RC bump.
+    - Final locked RC versions/SHAs are recorded in `trilogy-compatibility-matrix.md`.
+    - Hosted release workflow evidence is captured:
+      - `https://github.com/saagar210/MemoryKernel/actions/runs/21792841060`
 
 - Phase 10 (Soak and Operational Readiness): COMPLETE
   - Complete:
@@ -33,20 +36,17 @@ Tracks post-Phase-7 execution status for Phases 8-11 across MemoryKernel, Outcom
     - Evidence captured in `trilogy-release-report-2026-02-07.md`.
     - Phase 8-11 closeout command run includes passing soak iteration and benchmark threshold gate.
 
-- Phase 11 (Final Release and Stabilization): NOT STARTED
-  - Pending:
-    - Final release approvals.
-    - Ordered promotions.
-    - Stabilization window report.
-    - Post-release policy reaffirmation record.
+- Phase 11 (Final Release and Stabilization): COMPLETE
+  - Complete:
+    - Final release approvals are recorded in `adoption-decisions.md`.
+    - Promotion order was executed as trilogy publication sequence:
+      - `MemoryKernel` -> `OutcomeMemory` -> `MultiAgentCenter`
+    - Hosted verification passed for each project at locked RC SHAs.
+    - Post-release policy reaffirmed: `integration/v1` remains frozen; semantic breaks require `integration/v2`.
 
 ## External Dependencies
 
-1. OutcomeMemory repository variable setup:
-   - `MEMORYKERNEL_CANONICAL_REPO`
-2. Hosted CI evidence links from sibling repos.
-3. Final RC/version lock references from sibling repos.
-4. GitHub repository identity/ownership confirmation for all three hosted repos in this environment.
+- None for current `v1` trilogy baseline closeout.
 
 ## Closeout Command
 
